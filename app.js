@@ -6,12 +6,15 @@ const db = require("./models")
 const bodyParser = require("body-parser")
 const session = require("express-session")
 const flash = require("connect-flash")
+const passport = require("./config/passport")
 
 app.engine("handlebars", exhbs({ defaultLayout: "main" })) // Handlebars 註冊樣板引擎
 app.set("view engine", "handlebars") // 設定使用 Handlebars 做為樣板引擎
 app.use(bodyParser.urlencoded({ extended: true })) //設定使用 body-parser 解析表單內容
 app.use(session({ secret: "12345", resave: false, saveUninitialized: false }))
 app.use(flash())
+app.use(passport.initialize())
+app.use(passport.session())
 
 // 把 req.flash 放到 res.locals 裡面
 app.use((req, res, next) => {
@@ -24,4 +27,4 @@ app.listen(port, () => {
   db.sequelize.sync()
   console.log("App is running!!")
 })
-require("./routes")(app)
+require("./routes")(app, passport)
