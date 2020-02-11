@@ -7,8 +7,10 @@ const bodyParser = require("body-parser")
 const session = require("express-session")
 const flash = require("connect-flash")
 const passport = require("./config/passport")
+const Handlebars = require('handlebars')
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
 
-app.engine("handlebars", exhbs({ defaultLayout: "main" })) // Handlebars 註冊樣板引擎
+app.engine("handlebars", exhbs({ defaultLayout: "main", handlebars: allowInsecurePrototypeAccess(Handlebars) })) // Handlebars 註冊樣板引擎
 app.set("view engine", "handlebars") // 設定使用 Handlebars 做為樣板引擎
 app.use(bodyParser.urlencoded({ extended: true })) //設定使用 body-parser 解析表單內容
 app.use(session({ secret: "12345", resave: false, saveUninitialized: false }))
