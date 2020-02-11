@@ -20,11 +20,11 @@ passport.use(new LocalStrategy(
   }
 ))
 passport.serializeUser((user, cb) => {
-  cb(null, user.id)
+  return cb(null, user.id)
 })
 passport.deserializeUser((id, cb) => {
   User.findByPk(id).then((user) => {
-    return cb(null, user)
+    return cb(null, user.get())
   })
 })
 module.exports = passport
