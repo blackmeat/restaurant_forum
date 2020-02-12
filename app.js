@@ -10,6 +10,9 @@ const passport = require("./config/passport")
 const Handlebars = require('handlebars')
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
 const methodOverride = require("method-override")
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config()
+}
 
 app.engine("handlebars", exhbs({ defaultLayout: "main", handlebars: allowInsecurePrototypeAccess(Handlebars) })) // Handlebars 註冊樣板引擎
 app.set("view engine", "handlebars") // 設定使用 Handlebars 做為樣板引擎
