@@ -19,6 +19,7 @@ app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride("_method"))
+app.use('/upload', express.static(__dirname + '/upload'))
 
 // 把 req.flash 放到 res.locals 裡面
 app.use((req, res, next) => {
