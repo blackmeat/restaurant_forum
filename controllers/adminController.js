@@ -19,7 +19,7 @@ const adminController = {
     Category
       .findAll()
       .then((categories) => {
-        res.render("admon/create", { categories })
+        res.render("admin/create", { categories })
       })
   },
 

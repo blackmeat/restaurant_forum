@@ -14,7 +14,11 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config()
 }
 
-app.engine("handlebars", exhbs({ defaultLayout: "main", handlebars: allowInsecurePrototypeAccess(Handlebars) })) // Handlebars 註冊樣板引擎
+app.engine("handlebars", exhbs({
+  defaultLayout: "main",
+  handlebars: allowInsecurePrototypeAccess(Handlebars),
+  helpers: require("./config/handelbars-helpers")
+})) // Handlebars 註冊樣板引擎
 app.set("view engine", "handlebars") // 設定使用 Handlebars 做為樣板引擎
 app.use(bodyParser.urlencoded({ extended: true })) //設定使用 body-parser 解析表單內容
 app.use(session({ secret: "12345", resave: false, saveUninitialized: false }))
