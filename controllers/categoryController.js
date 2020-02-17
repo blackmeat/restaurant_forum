@@ -31,6 +31,7 @@ const categoryController = {
       res.redirect("/admin/categories")
     })
   },
+
   putCategory: (req, res) => {
     if (!req.body.name) {
       req.flash("error_messages", "The name didn\'t exist!!")
@@ -42,11 +43,23 @@ const categoryController = {
         return category.update({
           name: req.body.name
         }).then((category) => {
-          req.flash("success_messages", "The new category was successful updated!!")
+          req.flash("success_messages", "The new category was updated successful!!")
           res.redirect("/admin/categories")
         })
       })
+  },
 
+  deleteCategory: (req, res) => {
+    return Category
+      .findByPk(req.params.id)
+      .then((category) => {
+        category
+          .destroy()
+          .then((category) => {
+            req.flash("success_messages", "The category was deleted successful")
+            res.redirect('/admin/categories')
+          })
+      })
   }
 }
 
