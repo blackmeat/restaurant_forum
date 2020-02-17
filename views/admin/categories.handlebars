@@ -3,12 +3,22 @@
 <a href='/admin/categories'>Categories</a>
 <br />
 <br />
+{{#if category}}
+<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+  <form action="/admin/categories/{{category.id}}?_method=PUT" method="POST">
+    <input type="text" placeholder="name" name="name" value="{{category.name}}">
+    <button type="submit" class="btn btn-outline-dark mx-2">Update</button>
+    <a href="/admin/categories">or Create new</a>
+  </form>
+</div>
+{{else}}
 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
   <form action="/admin/categories" method="POST">
     <input type="text" placeholder="name" name="name">
     <button type="submit" class="btn btn-outline-dark mx-2">Submit</button>
   </form>
 </div>
+{{/if}}
 <br />
 <br />
 <table class="table">

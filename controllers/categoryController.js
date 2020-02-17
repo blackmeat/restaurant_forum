@@ -6,7 +6,16 @@ const categoryController = {
     Category
       .findAll()
       .then((categories) => {
-        res.render("admin/categories", { categories })
+        if (req.params.id) {
+          Category
+            .findByPk(req.params.id)
+            .then((category) => {
+              res.render("admin/categories", { categories, category })
+            })
+        } else {
+          return res.render("admin/categories", { categories })
+        }
+
       })
   },
 
@@ -21,6 +30,23 @@ const categoryController = {
       req.flash("success_messages", "The new category was successful created!!")
       res.redirect("/admin/categories")
     })
+  },
+  putCategory: (req, res) => {
+    if (!req.body.name) {
+      req.flash("error_messages", "The name didn\'t exist!!")
+      res.redirect("back")
+    }
+    Category
+      .findByPk(req.params.id)
+      .then((category) => {
+        return category.update({
+          name: req.body.name
+        }).then((category) => {
+          req.flash("success_messages", "The new category was successful updated!!")
+          res.redirect("/admin/categories")
+        })
+      })
+
   }
 }
 
