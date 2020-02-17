@@ -138,13 +138,8 @@ const adminController = {
     User
       .findByPk(req.params.id)
       .then((user) => {
-        if (user.isAdmin === true) {
-          user.isAdmin = false
-        } else {
-          user.isAdmin = true
-        }
         user.update({
-          isAdmin: user.isAdmin
+          isAdmin: !user.isAdmin
         })
           .then((user) => {
             req.flash("success_messages", "Users  was successfully update")
