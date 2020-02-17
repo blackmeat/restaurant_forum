@@ -1,10 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const category = sequelize.define('category', {
+  const Category = sequelize.define('Category', {
     name: DataTypes.STRING
   }, {});
-  category.associate = function(models) {
+  Category.associate = function (models) {
     // associations can be defined here
+    Category.hasMany(models.Restaurant)
   };
-  return category;
+  return Category;
 };
