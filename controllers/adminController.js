@@ -16,7 +16,11 @@ const adminController = {
   },
 
   createRestaurant: (req, res) => {
-    res.render("admin/create")
+    Category
+      .findAll()
+      .then((categories) => {
+        res.render("admon/create", { categories })
+      })
   },
 
   postRestaurant: (req, res) => {
@@ -35,6 +39,7 @@ const adminController = {
           opening_hours: req.body.opening_hours,
           description: req.body.description,
           image: file ? img.data.link : null,
+          CategoryId: req.body.categoryId
         }).then((restaurant) => {
           req.flash('success_messages', 'restaurant was successfully created')
           return res.redirect('/admin/restaurants')
@@ -48,6 +53,7 @@ const adminController = {
         opening_hours: req.body.opening_hours,
         description: req.body.description,
         image: null,
+        CategoryId: req.body.categoryId
       }).then((restaurants) => {
         req.flash("success_messages", "restaurant was successful created")
         res.redirect("/admin/restaurants")
@@ -68,7 +74,12 @@ const adminController = {
     Restaurant
       .findByPk(req.params.id)
       .then((restaurant) => {
-        res.render("admin/create", { restaurant })
+        Category
+          .findAll()
+          .then((categories) => {
+            res.render("admin/create", { restaurant, categories })
+          })
+
       })
   },
 
@@ -90,6 +101,7 @@ const adminController = {
               opening_hours: req.body.opening_hours,
               description: req.body.description,
               image: file ? img.data.link : restaurant.image,
+              CategoryId: req.body.categoryId
             })
               .then((restaurant) => {
                 req.flash('success_messages', 'restaurant was successfully to update')
@@ -107,7 +119,8 @@ const adminController = {
             tel: req.body.tel,
             opening_hours: req.body.opening_hours,
             description: req.body.description,
-            image: Restaurant.image
+            image: Restaurant.image,
+            CategoryId: req.body.categoryId
           }).then((restaurant) => {
             req.flash("success_messages", "restaurant was successful update")
             res.redirect("/admin/restaurants")
