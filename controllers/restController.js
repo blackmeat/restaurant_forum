@@ -4,15 +4,30 @@ const Category = db.Category
 
 const restController = {
   getRestaurants: (req, res) => {
+    let whereQuery = {}
+    let categoryId = ""
+    if (req.query.categoryId) {
+      categoryId = Number(req.query.categoryId)
+      whereQuery["CategoryId"] = categoryId
+    }
     Restaurant
-      .findAll({ include: Category })
+      .findAll({ include: Category, where: whereQuery })
       .then((restaurants) => {
         const data = restaurants.map((restaurant) => ({
           ...restaurant.dataValues,
           description: restaurant.dataValues.description.substring(0, 50)
         }))
         console.log(data[0])
-        return res.render("restaurants", { restaurants: data })
+        Category
+          .findAll()
+          .then((categories) => {
+            return res.render("restaurants", {
+              restaurants: data,
+              categories,
+              categoryId
+            })
+          })
+
       })
   },
 
