@@ -4,11 +4,11 @@ const commentController = {
   postComment: (req, res) => {
     return Comment.create({
       text: req.body.text,
-      RestaurantId: req.body.restaurandId,
+      RestaurantId: req.body.restaurantId,
       UserId: req.user.id
     })
       .then((comment) => {
-        res.redirect(`/restaurant/${req.body.restaurandId}`)
+        res.redirect(`/restaurants/${req.body.restaurantId}`)
       })
   }
 }

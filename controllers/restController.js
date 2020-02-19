@@ -1,6 +1,8 @@
 const db = require("../models")
 const Restaurant = db.Restaurant
 const Category = db.Category
+const User = db.User
+const Comment = db.Comment
 const pageLimit = 10
 
 const restController = {
@@ -29,7 +31,7 @@ const restController = {
           ...restaurant.dataValues,
           description: restaurant.dataValues.description.substring(0, 50)
         }))
-        console.log(data[0])
+        // console.log(data[0])
         Category
           .findAll()
           .then((categories) => {
@@ -50,8 +52,14 @@ const restController = {
 
   getRestaurant: (req, res) => {
     Restaurant
-      .findByPk(req.params.id, { include: Category })
+      .findByPk(req.params.id, {
+        include: [
+          Category,
+          { model: Comment, include: [User] }
+        ]
+      })
       .then((restaurant) => {
+        // console.log(restaurant.Comments[0].dataValues.User.name)
         res.render("restaurant", { restaurant })
       })
   },
