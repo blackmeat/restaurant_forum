@@ -5,14 +5,27 @@
     </div>
     <div class="col-8">
       <ul class="list-unstyled">
-        <li class="my-2"><strong>{{User.name}}</strong></li>
-        <li>{{User.email}}</li>
+        <li class="my-1" style="font-size: 28px;"><strong>{{User.name}}</strong></li>
+        <li class="my-2" style="font-size:18px;">{{User.email}}</li>
+        <li>已評論餐廳數量：{{restAmount}}</li>
         {{#ifCond User.id user.id}}
-        <li class="my-3">
-          <a href="/users/{{user.id}}/edit" class="btn btn-primary">edit</a>
+        <li class="my-5">
+          <a href="/users/{{user.id}}/edit" class="btn btn-primary" style="margin-top:120px">edit</a>
         </li>
         {{/ifCond}}
       </ul>
+    </div>
+  </div>
+  <div class="card row my-3">
+    <div class="card-header">
+      已評論過的餐廳
+    </div>
+    <div class="card-body">
+      {{#each User.Comments}}
+      <a href="/restaurants/{{this.RestaurantId}}" class="mx-2">
+        <img src="{{this.Restaurant.image}}" alt="餐廳預覽圖" width="50px" height="50px">
+      </a>
+      {{/each}}
     </div>
   </div>
 </div>
