@@ -64,6 +64,15 @@ const restController = {
       })
   },
 
+  getRestaurantDashboard: (req, res) => {
+    Restaurant
+      .findOne({ include: [Category, Comment], where: { id: req.params.id } })
+      .then((restaurant) => {
+        const commentAmount = restaurant.Comments.length
+        res.render("dashboard", { restaurant, commentAmount })
+      })
+  },
+
   getFeeds: (req, res) => {
     Restaurant
       .findAll({ limit: 10, order: [["createdAt", "DESC"]], include: [Category] })
