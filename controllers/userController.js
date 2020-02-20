@@ -154,8 +154,25 @@ const userController = {
         like.destroy()
         res.redirect("back")
       })
-  }
+  },
 
+  getTopUser: (req, res) => {
+    return User.findAll({
+      include: [
+        { model: User, as: "Followers" }
+      ]
+    }).then(users => {
+      console.log(users[0])
+      users = users.map(user => ({
+        ...user.dataValues,
+        FollowerCount: user.Followers.length,
+        // 使用者追蹤對象有包含這個user嗎
+        isFollowed: req.user.Followeds.map(d => d.id).includes(user.id)
+      }))
+      users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
+      return res.render('topUser', { users: users })
+    })
+  }
 }
 
 module.exports = userController
