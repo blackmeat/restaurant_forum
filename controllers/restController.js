@@ -60,6 +60,8 @@ const restController = {
       })
       .then((restaurant) => {
         // console.log(restaurant.Comments[0].dataValues.User.name)
+        restaurant.viewCounts += 1
+        restaurant.save()
         res.render("restaurant", { restaurant })
       })
   },
