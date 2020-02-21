@@ -68,7 +68,12 @@ const userController = {
     User
       .findByPk(req.params.id)
       .then((user) => {
-        res.render("profile/edit", { user })
+        if (req.user.id === Number(req.params.id)) {
+          res.render("profile/edit", { user })
+        } else {
+          res.redirect(`/users/${req.params.id}`)
+        }
+
       })
   },
 
