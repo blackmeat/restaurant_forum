@@ -40,4 +40,4 @@ app.listen(port, () => {
   db.sequelize.sync()
   console.log("App is running!!")
 })
-require("./routes")(app, passport)
+require("./routes")(app)
