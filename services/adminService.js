@@ -23,6 +23,47 @@ const adminController = {
       })
   },
 
+  postRestaurant: (req, res, callback) => {
+    if (!req.body.name) {
+      callback({ status: "error", message: "Name didn't exist!" })
+      // req.flash("error_messages", "Name didn't exist!")
+      // return res.redirect("back")
+    }
+    const { file } = req // equal to const file = req.file
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID);
+      imgur.upload(file.path, (err, img) => {
+        return Restaurant.create({
+          name: req.body.name,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hours,
+          description: req.body.description,
+          image: file ? img.data.link : null,
+          CategoryId: req.body.categoryId
+        }).then((restaurant) => {
+          callback({ status: "success", message: "restaurant was successfully created" })
+          // req.flash('success_messages', 'restaurant was successfully created')
+          // return res.redirect('/admin/restaurants')
+        })
+      })
+    } else {
+      return Restaurant.create({
+        name: req.body.name,
+        address: req.body.address,
+        tel: req.body.tel,
+        opening_hours: req.body.opening_hours,
+        description: req.body.description,
+        image: null,
+        CategoryId: req.body.categoryId
+      }).then((restaurants) => {
+        callback({ status: "success", message: "restaurant was successfully created" })
+        // req.flash("success_messages", "restaurant was successful created")
+        // res.redirect("/admin/restaurants")
+      })
+    }
+  },
+
   deleteRestaurant: (req, res, callback) => {
     Restaurant
       .findByPk(req.params.id)
