@@ -21,6 +21,18 @@ const adminController = {
       .then((restaurant) => {
         callback({ restaurant })
       })
+  },
+
+  deleteRestaurant: (req, res, callback) => {
+    Restaurant
+      .findByPk(req.params.id)
+      .then((restaurant) => {
+        restaurant
+          .destroy()
+          .then((restaurant) => {
+            callback({ status: "success", message: "" })
+          })
+      })
   }
 }
 module.exports = adminController
